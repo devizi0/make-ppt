@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Stack vs Queue</title>
+<style>
+@import url('../fonts/tossface.css');
+@import url('../fonts/freesentation.css');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { width: 1920px; font-family: 'Freesentation', sans-serif; }
+
+.slide {
+  width: 1920px;
+  height: 1080px;
+  position: relative;
+  overflow: hidden;
+  page-break-after: always;
+  break-after: page;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 120px 140px;
+}
+
+.tossface { font-family: "Tossface", "Freesentation", sans-serif; font-style: normal; }
+
+/* ===== TITLE ===== */
+.slide-title {
+  background: #0a0a0a;
+  justify-content: flex-end;
+  padding-bottom: 140px;
+}
+.slide-title .tag {
+  display: inline-block;
+  font-size: 22px;
+  font-weight: 600;
+  color: #3182f6;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 32px;
+}
+.slide-title h1 {
+  font-size: 96px;
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1.1;
+  margin-bottom: 28px;
+}
+.slide-title h1 span { color: #3182f6; }
+.slide-title p {
+  font-size: 30px;
+  font-weight: 400;
+  color: #71717a;
+  line-height: 1.6;
+}
+
+/* ===== TOC ===== */
+.slide-toc { background: #ffffff; }
+.slide-toc h2 {
+  font-size: 52px;
+  font-weight: 800;
+  color: #0a0a0a;
+  margin-bottom: 64px;
+}
+.toc-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+}
+.toc-card {
+  background: #f4f4f5;
+  border: 1.5px solid #e4e4e7;
+  border-radius: 24px;
+  padding: 36px 40px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.toc-card .num {
+  font-size: 18px;
+  font-weight: 700;
+  color: #3182f6;
+  min-width: 36px;
+}
+.toc-card .toc-icon { font-size: 40px; }
+.toc-card .toc-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #0a0a0a;
+}
+.toc-card .toc-desc {
+  font-size: 20px;
+  font-weight: 400;
+  color: #71717a;
+  margin-top: 4px;
+}
+
+/* ===== CONTENT ===== */
+.slide-content { background: #ffffff; justify-content: flex-start; padding-top: 100px; }
+.slide-content h2 {
+  font-size: 52px;
+  font-weight: 800;
+  color: #0a0a0a;
+  margin-bottom: 60px;
+}
+
+.item-list { display: flex; flex-direction: column; gap: 28px; }
+.item {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+.item-icon { font-size: 36px; min-width: 44px; }
+.item-text {}
+.item-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #0a0a0a;
+  margin-bottom: 6px;
+}
+.item-desc {
+  font-size: 22px;
+  font-weight: 400;
+  color: #71717a;
+}
+
+/* Stack 시각화 */
+.stack-viz {
+  position: absolute;
+  right: 200px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 12px;
+  align-items: center;
+}
+.stack-block {
+  width: 220px;
+  height: 68px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 700;
+  transition: all 0.2s;
+}
+.stack-block.b1 { background: #dbeafe; color: #1d4ed8; border: 2px solid #bfdbfe; }
+.stack-block.b2 { background: #eff6ff; color: #2563eb; border: 2px solid #dbeafe; }
+.stack-block.b3 { background: #f0f9ff; color: #0369a1; border: 2px solid #e0f2fe; }
+.stack-block.b4 { background: #f8fafc; color: #475569; border: 2px solid #e2e8f0; }
+.stack-arrow {
+  font-size: 22px;
+  font-weight: 700;
+  color: #3182f6;
+  letter-spacing: 0.05em;
+}
+.stack-label {
+  font-size: 18px;
+  font-weight: 600;
+  color: #71717a;
+  margin-top: 8px;
+}
+
+/* Queue 시각화 */
+.queue-viz {
+  position: absolute;
+  right: 100px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 16px;
+}
+.queue-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.queue-block {
+  width: 180px;
+  height: 68px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 700;
+}
+.queue-block.q1 { background: #fef3c7; color: #b45309; border: 2px solid #fde68a; }
+.queue-block.q2 { background: #fef9ee; color: #d97706; border: 2px solid #fef3c7; }
+.queue-block.q3 { background: #f8fafc; color: #64748b; border: 2px solid #e2e8f0; }
+.queue-arrow { font-size: 24px; color: #f59e0b; }
+.queue-dir {
+  font-size: 18px;
+  font-weight: 600;
+  color: #71717a;
+  text-align: center;
+}
+
+/* ===== COMPARE ===== */
+.slide-compare { background: #ffffff; justify-content: flex-start; padding-top: 100px; }
+.slide-compare h2 {
+  font-size: 52px;
+  font-weight: 800;
+  color: #0a0a0a;
+  margin-bottom: 56px;
+}
+.compare-grid {
+  display: grid;
+  grid-template-columns: 1fr 2px 1fr;
+  gap: 0;
+  height: 700px;
+}
+.compare-divider { background: #e4e4e7; }
+.compare-col {
+  padding: 0 60px;
+}
+.compare-col-title {
+  font-size: 36px;
+  font-weight: 800;
+  margin-bottom: 36px;
+  padding-bottom: 24px;
+}
+.compare-col-title.stack { color: #3182f6; }
+.compare-col-title.queue { color: #f59e0b; }
+.compare-row {
+  display: flex;
+  flex-direction: column;
+  padding: 22px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+.compare-row:last-child { border-bottom: none; }
+.compare-key {
+  font-size: 18px;
+  font-weight: 600;
+  color: #a1a1aa;
+  margin-bottom: 6px;
+}
+.compare-val {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0a0a0a;
+}
+
+/* ===== USE CASES ===== */
+.slide-cases { background: #ffffff; justify-content: flex-start; padding-top: 100px; }
+.slide-cases h2 {
+  font-size: 52px;
+  font-weight: 800;
+  color: #0a0a0a;
+  margin-bottom: 56px;
+}
+.cases-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+.case-card {
+  background: #f4f4f5;
+  border: 1.5px solid #e4e4e7;
+  border-radius: 16px;
+  padding: 32px 28px;
+}
+.case-card-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.case-icon { font-size: 30px; }
+.case-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0a0a0a;
+}
+.case-type {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 6px;
+  margin-left: auto;
+}
+.case-type.stack { background: #dbeafe; color: #1d4ed8; }
+.case-type.queue { background: #fef3c7; color: #b45309; }
+.case-desc {
+  font-size: 19px;
+  font-weight: 400;
+  color: #71717a;
+  line-height: 1.6;
+}
+
+/* ===== END ===== */
+.slide-end {
+  background: #0a0a0a;
+  align-items: center;
+  text-align: center;
+}
+.slide-end .end-icon { font-size: 96px; margin-bottom: 40px; }
+.slide-end h2 {
+  font-size: 72px;
+  font-weight: 900;
+  color: #ffffff;
+  margin-bottom: 24px;
+  line-height: 1.15;
+}
+.slide-end h2 span { color: #3182f6; }
+.slide-end p {
+  font-size: 28px;
+  font-weight: 400;
+  color: #71717a;
+}
+</style>
+</head>
+<body>
+
+<!-- 1. 타이틀 -->
+<div class="slide slide-title">
+  <div>
+    <div class="tag">Data Structures</div>
+    <h1>Stack <span>&</span><br>Queue</h1>
+    <p>자료구조의 두 축 — 쌓고 줄 세우는 방식의 모든 것</p>
+  </div>
+</div>
+
+<!-- 2. 목차 -->
+<div class="slide slide-toc">
+  <h2>목차</h2>
+  <div class="toc-grid">
+    <div class="toc-card">
+      <div class="num">01</div>
+      <div class="toc-icon tossface">📚</div>
+      <div>
+        <div class="toc-title">Stack 개념</div>
+        <div class="toc-desc">후입선출(LIFO) 구조</div>
+      </div>
+    </div>
+    <div class="toc-card">
+      <div class="num">02</div>
+      <div class="toc-icon tossface">🚶</div>
+      <div>
+        <div class="toc-title">Queue 개념</div>
+        <div class="toc-desc">선입선출(FIFO) 구조</div>
+      </div>
+    </div>
+    <div class="toc-card">
+      <div class="num">03</div>
+      <div class="toc-icon tossface">⚖️</div>
+      <div>
+        <div class="toc-title">Stack vs Queue</div>
+        <div class="toc-desc">핵심 차이 비교</div>
+      </div>
+    </div>
+    <div class="toc-card">
+      <div class="num">04</div>
+      <div class="toc-icon tossface">💡</div>
+      <div>
+        <div class="toc-title">실전 활용 사례</div>
+        <div class="toc-desc">언제, 어디서 쓰는가</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 3. Stack 개념 -->
+<div class="slide slide-content">
+  <h2>Stack — 후입선출(LIFO)</h2>
+  <div class="item-list" style="max-width:960px;">
+    <div class="item">
+      <div class="item-icon tossface">📦</div>
+      <div class="item-text">
+        <div class="item-title">Last In, First Out</div>
+        <div class="item-desc">마지막에 넣은 데이터가 가장 먼저 나온다 — 책 더미를 떠올려라</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-icon tossface">⬆️</div>
+      <div class="item-text">
+        <div class="item-title">push / pop 연산</div>
+        <div class="item-desc">push로 위에 쌓고, pop으로 위에서 꺼낸다. 양쪽 끝 접근은 불가</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-icon tossface">⚡</div>
+      <div class="item-text">
+        <div class="item-title">O(1) 시간복잡도</div>
+        <div class="item-desc">push·pop·peek 모두 상수 시간 — 삽입·삭제가 빠르다</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-icon tossface">🔄</div>
+      <div class="item-text">
+        <div class="item-title">재귀적 특성</div>
+        <div class="item-desc">함수 호출 스택과 동일한 구조 — 재귀 알고리즘과 자연스럽게 맞닿아 있다</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stack 시각화 -->
+  <div class="stack-viz">
+    <div class="stack-arrow tossface" style="margin-bottom:4px;">⬆️ pop</div>
+    <div class="stack-block b1">D (TOP)</div>
+    <div class="stack-block b2">C</div>
+    <div class="stack-block b3">B</div>
+    <div class="stack-block b4">A (BOTTOM)</div>
+    <div class="stack-arrow tossface" style="margin-top:4px;">⬆️ push</div>
+    <div class="stack-label">Stack</div>
+  </div>
+</div>
+
+<!-- 4. Queue 개념 -->
+<div class="slide slide-content">
+  <h2>Queue — 선입선출(FIFO)</h2>
+  <div class="item-list" style="max-width:960px;">
+    <div class="item">
+      <div class="item-icon tossface">🚶</div>
+      <div class="item-text">
+        <div class="item-title">First In, First Out</div>
+        <div class="item-desc">먼저 들어온 데이터가 먼저 나간다 — 줄 서기와 동일한 원리</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-icon tossface">➡️</div>
+      <div class="item-text">
+        <div class="item-title">enqueue / dequeue 연산</div>
+        <div class="item-desc">rear에서 삽입(enqueue), front에서 제거(dequeue) — 단방향 흐름</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-icon tossface">⚡</div>
+      <div class="item-text">
+        <div class="item-title">O(1) 시간복잡도</div>
+        <div class="item-desc">enqueue·dequeue 모두 상수 시간. 연결 리스트 구현 시 최적</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-icon tossface">🔁</div>
+      <div class="item-text">
+        <div class="item-title">순서 보장</div>
+        <div class="item-desc">입력 순서를 그대로 유지 — 공정한 처리가 필요한 곳에 적합</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Queue 시각화 -->
+  <div class="queue-viz">
+    <div class="queue-dir" style="color:#f59e0b; font-weight:700;">⬅️ dequeue (FRONT)</div>
+    <div class="queue-row">
+      <div class="queue-block q1">A</div>
+      <div class="queue-arrow tossface">→</div>
+      <div class="queue-block q2">B</div>
+      <div class="queue-arrow tossface">→</div>
+      <div class="queue-block q3">C</div>
+    </div>
+    <div class="queue-dir" style="color:#f59e0b; font-weight:700;">enqueue (REAR) ➡️</div>
+    <div class="queue-dir">Queue</div>
+  </div>
+</div>
+
+<!-- 5. Stack vs Queue 비교 -->
+<div class="slide slide-compare">
+  <h2>Stack vs Queue — 핵심 비교</h2>
+  <div class="compare-grid">
+    <div class="compare-col">
+      <div class="compare-col-title stack tossface">📚 Stack</div>
+      <div class="compare-row">
+        <div class="compare-key">원리</div>
+        <div class="compare-val">LIFO — 후입선출</div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-key">삽입</div>
+        <div class="compare-val">push (TOP에 추가)</div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-key">삭제</div>
+        <div class="compare-val">pop (TOP에서 제거)</div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-key">접근 방향</div>
+        <div class="compare-val">단일 끝 (TOP)</div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-key">순서 보존</div>
+        <div class="compare-val">역순 반환</div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-key">대표 연산</div>
+        <div class="compare-val">push / pop / peek</div>
+      </div>
+    </div>
+    <div class="compare-divider"></div>
+    <div class="compare-col">
+      <div class="compare-col-title queue tossface">🚶 Queue</div>
+      <div class="compare-row">
+        <div class="compare-key">원리</div>
+        <div class="compare-val">FIFO — 선입선출</div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-key">삽입</div>
+        <div class="compare-val">enqueue (REAR에 추가)</div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-key">삭제</div>
+        <div class="compare-val">dequeue (FRONT에서 제거)</div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-key">접근 방향</div>
+        <div class="compare-val">양쪽 끝 (FRONT / REAR)</div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-key">순서 보존</div>
+        <div class="compare-val">입력 순서 유지</div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-key">대표 연산</div>
+        <div class="compare-val">enqueue / dequeue / peek</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 6. 활용 사례 -->
+<div class="slide slide-cases">
+  <h2>실전 활용 사례</h2>
+  <div class="cases-grid">
+    <div class="case-card">
+      <div class="case-card-top">
+        <span class="case-icon tossface">🔙</span>
+        <span class="case-title">브라우저 뒤로가기</span>
+        <span class="case-type stack">Stack</span>
+      </div>
+      <div class="case-desc">방문 페이지를 스택에 push, 뒤로가기 시 pop — 방문 이력을 역순으로 탐색</div>
+    </div>
+    <div class="case-card">
+      <div class="case-card-top">
+        <span class="case-icon tossface">↩️</span>
+        <span class="case-title">Undo / Redo</span>
+        <span class="case-type stack">Stack</span>
+      </div>
+      <div class="case-desc">편집 작업을 스택에 기록, Ctrl+Z 시 pop으로 이전 상태 복원</div>
+    </div>
+    <div class="case-card">
+      <div class="case-card-top">
+        <span class="case-icon tossface">🧮</span>
+        <span class="case-title">함수 호출 스택</span>
+        <span class="case-type stack">Stack</span>
+      </div>
+      <div class="case-desc">함수 호출마다 스택 프레임 push, 반환 시 pop — OS가 실제로 사용하는 방식</div>
+    </div>
+    <div class="case-card">
+      <div class="case-card-top">
+        <span class="case-icon tossface">🖨️</span>
+        <span class="case-title">프린터 대기열</span>
+        <span class="case-type queue">Queue</span>
+      </div>
+      <div class="case-desc">먼저 요청한 문서가 먼저 출력 — 공정한 순서 처리의 대표 사례</div>
+    </div>
+    <div class="case-card">
+      <div class="case-card-top">
+        <span class="case-icon tossface">🌐</span>
+        <span class="case-title">BFS 탐색</span>
+        <span class="case-type queue">Queue</span>
+      </div>
+      <div class="case-desc">그래프 너비 우선 탐색에서 방문 노드를 큐에 enqueue, 순서대로 처리</div>
+    </div>
+    <div class="case-card">
+      <div class="case-card-top">
+        <span class="case-icon tossface">📨</span>
+        <span class="case-title">메시지 큐</span>
+        <span class="case-type queue">Queue</span>
+      </div>
+      <div class="case-desc">Kafka·RabbitMQ 등 비동기 처리 시스템 — 순서 보장이 핵심</div>
+    </div>
+  </div>
+</div>
+
+<!-- 7. 마무리 -->
+<div class="slide slide-end">
+  <img style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" src="../assets/bg-dark-4-blur.png">
+  <div style="position:relative;z-index:1;">
+    <div class="end-icon tossface">🏁</div>
+    <h2>순서가 전략이다<br><span>Stack & Queue</span></h2>
+    <p>쌓을 것인가, 줄 세울 것인가 — 문제에 맞는 구조를 선택하라</p>
+  </div>
+</div>
+
+</body>
+</html>
