@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>황인준 포트폴리오</title>
+<style>
+  @import url('../fonts/freesentation.css');
+  @import url('../fonts/tossface.css');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1920px;
+    font-family: 'Freesentation', -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .slide {
+    width: 1920px;
+    height: 1080px;
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+    break-after: page;
+    background: #ffffff;
+  }
+  .tossface { font-family: "Tossface","Freesentation",sans-serif; font-style: normal; }
+
+  /* 로고 */
+  .logo { font-size: 20px; font-weight: 700; color: #3852B4; margin-bottom: 52px; display: block; }
+  .logo-dark { color: rgba(255,255,255,0.38); }
+
+  /* 제목 */
+  .s-h1 { font-size: 62px; font-weight: 800; color: #09090b; letter-spacing: -0.03em; margin-bottom: 52px; }
+
+  /* border 구분선 그리드 공통 */
+  .cols-4 { display: grid; grid-template-columns: repeat(4,1fr); border-top: 1px solid #e4e4e7; }
+  .cols-4-dark { display: grid; grid-template-columns: repeat(4,1fr); border-top: 1px solid rgba(255,255,255,0.08); }
+  .cols-3 { display: grid; grid-template-columns: repeat(3,1fr); border-top: 1px solid #e4e4e7; }
+  .cols-3-dark { display: grid; grid-template-columns: repeat(3,1fr); border-top: 1px solid rgba(255,255,255,0.08); }
+
+  .col { padding: 56px 46px 0 0; border-right: 1px solid #e4e4e7; }
+  .col:last-child { border-right: none; padding-right: 0; }
+  .col + .col { padding-left: 46px; }
+
+  .col-dark { padding: 56px 46px 0 0; border-right: 1px solid rgba(255,255,255,0.08); }
+  .col-dark:last-child { border-right: none; padding-right: 0; }
+  .col-dark + .col-dark { padding-left: 46px; }
+
+  /* ═══ SLIDE 1: TITLE ═══ */
+  .s-title {
+    background: #0a0a0a;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 0 180px;
+  }
+  .t-eyebrow { font-size: 24px; font-weight: 400; color: rgba(255,255,255,0.32); letter-spacing: 0.04em; margin-bottom: 28px; }
+  .t-name { font-size: 150px; font-weight: 800; color: #fff; line-height: 1.0; letter-spacing: -0.04em; margin-bottom: 18px; }
+  .t-role { font-size: 44px; font-weight: 300; color: #3852B4; margin-bottom: 52px; }
+  .t-desc { font-size: 28px; font-weight: 300; color: rgba(255,255,255,0.4); line-height: 1.75; max-width: 820px; }
+  .t-email { position: absolute; bottom: 68px; left: 180px; font-size: 20px; color: rgba(255,255,255,0.18); z-index: 2; }
+
+  /* ═══ SLIDE 2: ABOUT ═══ */
+  .s-about { padding: 90px 90px 80px; display: flex; flex-direction: column; justify-content: space-between; }
+  .stat-num { font-size: 120px; font-weight: 800; color: #09090b; letter-spacing: -0.05em; line-height: 1; margin-bottom: 20px; }
+  .stat-num .bl { color: #3852B4; }
+  .stat-label { font-size: 26px; font-weight: 500; color: #3f3f46; margin-bottom: 12px; }
+  .stat-sub { font-size: 22px; font-weight: 300; color: #a1a1aa; line-height: 1.65; }
+
+  /* ═══ SLIDE 3: SKILLS ═══ */
+  .s-skills { padding: 90px 90px 80px; display: flex; flex-direction: column; justify-content: space-between; }
+  .skill-rows { display: flex; flex-direction: column; }
+  .skill-row { display: flex; align-items: center; padding: 46px 0; border-bottom: 1px solid #f0f0f0; }
+  .skill-row:first-child { border-top: 1px solid #e4e4e7; }
+  .sk-cat { font-size: 18px; font-weight: 600; color: #a1a1aa; letter-spacing: 0.08em; text-transform: uppercase; width: 230px; flex-shrink: 0; }
+  .sk-chips { display: flex; flex-wrap: wrap; gap: 12px; }
+  .sk-chip { font-size: 26px; font-weight: 500; color: #3f3f46; background: #f4f4f5; border-radius: 10px; padding: 14px 28px; }
+
+  /* ═══ SLIDE 4: EXPERIENCE ═══ */
+  .s-exp { background: #0a0a0a; padding: 90px 90px 80px; display: flex; flex-direction: column; justify-content: space-between; }
+  .exp-kicker { font-size: 18px; font-weight: 500; color: #3852B4; letter-spacing: 0.04em; margin-bottom: 14px; }
+  .exp-title { font-size: 82px; font-weight: 800; color: #fff; letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 8px; }
+  .exp-sub { font-size: 23px; font-weight: 300; color: rgba(255,255,255,0.26); margin-bottom: 58px; }
+  .m-num { font-size: 68px; font-weight: 800; color: #fff; letter-spacing: -0.04em; line-height: 1; margin-bottom: 14px; }
+  .m-num .unit { font-size: 32px; font-weight: 300; color: #3852B4; }
+  .m-title { font-size: 22px; font-weight: 600; color: rgba(255,255,255,0.6); margin-bottom: 8px; }
+  .m-desc { font-size: 18px; font-weight: 300; color: rgba(255,255,255,0.28); line-height: 1.6; }
+
+  /* ═══ SLIDE 5: PROJECT XQUARE ═══ */
+  .s-proj { padding: 90px 90px 80px; display: flex; flex-direction: column; justify-content: space-between; }
+  .proj-kicker { font-size: 16px; font-weight: 600; color: #3852B4; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px; }
+  .proj-h { font-size: 72px; font-weight: 800; color: #09090b; letter-spacing: -0.03em; margin-bottom: 12px; }
+  .proj-h-dark { color: #fff; }
+  .proj-d { font-size: 26px; font-weight: 300; color: #71717a; line-height: 1.6; max-width: 1200px; margin-bottom: 60px; }
+  .proj-d-dark { color: rgba(255,255,255,0.36); }
+  .pc-icon { font-size: 48px; display: block; margin-bottom: 20px; }
+  .pc-t { font-size: 28px; font-weight: 700; color: #09090b; margin-bottom: 12px; }
+  .pc-b { font-size: 22px; font-weight: 300; color: #71717a; line-height: 1.65; }
+  .proj-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 44px; }
+  .proj-tag { font-size: 20px; font-weight: 500; color: #52525b; background: #f4f4f5; border-radius: 8px; padding: 9px 18px; }
+
+  /* ═══ SLIDE 6: INJUNWEB ═══ */
+  .s-injunweb { background: #0a0a0a; padding: 90px 90px 80px; display: flex; flex-direction: column; justify-content: space-between; }
+  .injun-top { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 54px; }
+  .injun-spec { font-size: 20px; font-weight: 300; color: rgba(255,255,255,0.2); line-height: 2; text-align: right; }
+  .cd-icon { font-size: 52px; display: block; margin-bottom: 24px; }
+  .cd-t { font-size: 34px; font-weight: 700; color: #fff; margin-bottom: 16px; letter-spacing: -0.01em; }
+  .cd-b { font-size: 24px; font-weight: 300; color: rgba(255,255,255,0.34); line-height: 1.75; }
+
+  /* ═══ SLIDE 7: ACHIEVEMENTS ═══ */
+  .s-achv { padding: 90px 90px 80px; display: flex; flex-direction: column; justify-content: space-between; }
+  .achv-rows { display: flex; flex-direction: column; margin-top: 52px; }
+  .achv-row { display: flex; align-items: center; padding: 48px 0; gap: 44px; border-bottom: 1px solid #e4e4e7; }
+  .achv-row:first-child { border-top: 1px solid #e4e4e7; }
+  .a-date { font-size: 20px; font-weight: 400; color: #a1a1aa; width: 100px; flex-shrink: 0; }
+  .a-icon { font-size: 38px; flex-shrink: 0; }
+  .a-name { font-size: 34px; font-weight: 600; color: #09090b; flex: 1; }
+  .a-org { font-size: 22px; font-weight: 400; color: #a1a1aa; }
+
+  /* ═══ SLIDE 8: END ═══ */
+  .s-end {
+    background: #0a0a0a;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 0 180px;
+  }
+  .e-eyebrow { font-size: 22px; font-weight: 400; color: rgba(255,255,255,0.26); margin-bottom: 26px; }
+  .e-headline { font-size: 122px; font-weight: 800; color: #fff; line-height: 1.0; letter-spacing: -0.04em; margin-bottom: 54px; }
+  .e-headline span { color: #3852B4; }
+  .e-contact { font-size: 28px; font-weight: 300; color: rgba(255,255,255,0.3); }
+  .e-contact strong { color: #fff; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1: TITLE -->
+<div class="slide s-title">
+  <img style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:0.5;" src="../assets/bg-dark-7-blur.png">
+  <div style="position:relative;z-index:1;">
+    <div class="t-eyebrow">DevOps Engineer</div>
+    <div class="t-name">황인준</div>
+    <div class="t-role">DevOps &amp; Infrastructure</div>
+    <div class="t-desc">가용성과 자동화를 고민하며<br>측정 가능한 시스템을 만드는 엔지니어.</div>
+  </div>
+  <div class="t-email">me@injun.dev</div>
+</div>
+
+<!-- SLIDE 2: ABOUT -->
+<div class="slide s-about">
+  <img style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:0.28;" src="../assets/bg-light-1.png">
+  <div style="position:relative;z-index:1;">
+    <span class="logo">INJUN.DEV</span>
+    <div class="s-h1">황인준이 만든 것들</div>
+    <div class="cols-4">
+      <div class="col">
+        <div class="stat-num">12<span class="bl">+</span></div>
+        <div class="stat-label">운영 프로젝트</div>
+        <div class="stat-sub">Kubernetes 기반<br>서비스 운영</div>
+      </div>
+      <div class="col">
+        <div class="stat-num">50<span class="bl">+</span></div>
+        <div class="stat-label">운영 서비스</div>
+        <div class="stat-sub">단일 플랫폼에서<br>통합 관리</div>
+      </div>
+      <div class="col">
+        <div class="stat-num">70<span class="bl">%</span></div>
+        <div class="stat-label">클라우드 비용 절감</div>
+        <div class="stat-sub">EKS → 온프레미스<br>마이그레이션</div>
+      </div>
+      <div class="col">
+        <div class="stat-num">3<span class="bl">대</span></div>
+        <div class="stat-label">홈랩 서버</div>
+        <div class="stat-sub">Dell R730으로<br>프라이빗 클라우드 운영</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 3: SKILLS -->
+<div class="slide s-skills">
+  <img style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:0.22;" src="../assets/bg-light-0.png">
+  <div style="position:relative;z-index:1;">
+    <span class="logo">INJUN.DEV</span>
+    <div class="s-h1" style="margin-bottom:32px;">기술 스택</div>
+    <div class="skill-rows">
+      <div class="skill-row">
+        <div class="sk-cat">Infra</div>
+        <div class="sk-chips">
+          <span class="sk-chip">Kubernetes</span><span class="sk-chip">Docker</span><span class="sk-chip">AWS</span>
+          <span class="sk-chip">Proxmox</span><span class="sk-chip">Terraform</span><span class="sk-chip">Ansible</span>
+          <span class="sk-chip">Talos</span><span class="sk-chip">Ceph</span>
+        </div>
+      </div>
+      <div class="skill-row">
+        <div class="sk-cat">CI/CD</div>
+        <div class="sk-chips">
+          <span class="sk-chip">ArgoCD</span><span class="sk-chip">Argo Workflows</span>
+          <span class="sk-chip">GitHub Actions</span><span class="sk-chip">Cilium</span>
+        </div>
+      </div>
+      <div class="skill-row">
+        <div class="sk-cat">Observability</div>
+        <div class="sk-chips">
+          <span class="sk-chip">Prometheus</span><span class="sk-chip">Grafana</span><span class="sk-chip">Loki</span>
+        </div>
+      </div>
+      <div class="skill-row">
+        <div class="sk-cat">Backend</div>
+        <div class="sk-chips">
+          <span class="sk-chip">Go</span><span class="sk-chip">Gin</span><span class="sk-chip">PostgreSQL</span>
+          <span class="sk-chip">MySQL</span><span class="sk-chip">Redis</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 4: EXPERIENCE -->
+<div class="slide s-exp">
+  <img style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:0.28;" src="../assets/bg-dark-1-blur.png">
+  <div style="position:relative;z-index:1;">
+    <span class="logo logo-dark">INJUN.DEV</span>
+    <div class="exp-kicker">2024.10 — Present · XQUARE Project</div>
+    <div class="exp-title">DevOps Lead</div>
+    <div class="exp-sub">교내 개발 플랫폼 인프라 전담</div>
+    <div class="cols-4-dark">
+      <div class="col-dark">
+        <div class="m-num">70<span class="unit">%</span></div>
+        <div class="m-title">비용 절감</div>
+        <div class="m-desc">AWS EKS → 온프레미스<br>마이그레이션</div>
+      </div>
+      <div class="col-dark">
+        <div class="m-num" style="font-size:42px;letter-spacing:-0.02em;">3min<span class="unit"> → 1초</span></div>
+        <div class="m-title">배포 트리거 단축</div>
+        <div class="m-desc">Argo Workflows 도입</div>
+      </div>
+      <div class="col-dark">
+        <div class="m-num" style="font-size:42px;letter-spacing:-0.02em;">Cilium<span class="unit"> CNI</span></div>
+        <div class="m-title">네트워크 최적화</div>
+        <div class="m-desc">클러스터 내부<br>성능 개선</div>
+      </div>
+      <div class="col-dark">
+        <div class="m-num" style="font-size:42px;letter-spacing:-0.02em;">Loki<span class="unit"> + Prom</span></div>
+        <div class="m-title">중앙 모니터링 구축</div>
+        <div class="m-desc">통합 로깅 체계</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 5: PROJECT XQUARE -->
+<div class="slide s-proj">
+  <img style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:0.22;" src="../assets/bg-light-0.png">
+  <div style="position:relative;z-index:1;">
+    <span class="logo">INJUN.DEV</span>
+    <div class="proj-kicker">Project 01</div>
+    <div class="proj-h">XQUARE</div>
+    <div class="proj-d">교내 개발 플랫폼 전체 인프라. 고가용성 멀티 마스터 클러스터와 GitOps 기반 완전 자동화 배포 환경.</div>
+    <div class="cols-4">
+      <div class="col">
+        <span class="tossface pc-icon">🏗️</span>
+        <div class="pc-t">멀티 마스터 클러스터</div>
+        <div class="pc-b">고가용성 유지를 위한<br>멀티 마스터 구성</div>
+      </div>
+      <div class="col">
+        <span class="tossface pc-icon">🔄</span>
+        <div class="pc-t">GitOps 자동화</div>
+        <div class="pc-b">ArgoCD 기반<br>완전 자동화 배포</div>
+      </div>
+      <div class="col">
+        <span class="tossface pc-icon">🌐</span>
+        <div class="pc-t">Cilium CNI</div>
+        <div class="pc-b">클러스터 네트워킹<br>정책 및 성능 최적화</div>
+      </div>
+      <div class="col">
+        <span class="tossface pc-icon">📊</span>
+        <div class="pc-t">중앙 모니터링</div>
+        <div class="pc-b">Prometheus + Loki<br>통합 관측 체계</div>
+      </div>
+    </div>
+    <div class="proj-tags">
+      <span class="proj-tag">Kubernetes</span><span class="proj-tag">Argo CD</span>
+      <span class="proj-tag">Terraform</span><span class="proj-tag">AWS</span>
+      <span class="proj-tag">Cilium</span><span class="proj-tag">Grafana</span>
+      <span class="proj-tag">GitHub Actions</span><span class="proj-tag">Prometheus</span>
+      <span class="proj-tag">Ansible</span>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 6: PROJECT INJUNWEB -->
+<div class="slide s-injunweb">
+  <img style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:0.22;" src="../assets/bg-dark-6.png">
+  <div style="position:relative;z-index:1;">
+    <span class="logo logo-dark">INJUN.DEV</span>
+    <div class="injun-top">
+      <div>
+        <div class="proj-kicker">Project 02</div>
+        <div class="proj-h proj-h-dark">INJUNWEB</div>
+        <div class="proj-d proj-d-dark">Dell R730 × 3대로 구축한 프라이빗 클라우드 홈랩</div>
+      </div>
+      <div class="injun-spec">
+        Dell PowerEdge R730 × 3<br>
+        Proxmox VE · Talos Linux<br>
+        Ceph · Argo CD · Grafana
+      </div>
+    </div>
+    <div class="cols-3-dark">
+      <div class="col-dark">
+        <span class="tossface cd-icon">🖥️</span>
+        <div class="cd-t">Proxmox 가상화</div>
+        <div class="cd-b">VM과 컨테이너를 혼합 운영하는 하이퍼바이저 레이어. 장애 시뮬레이션과 신기술 검증 환경.</div>
+      </div>
+      <div class="col-dark">
+        <span class="tossface cd-icon">💾</span>
+        <div class="cd-t">Ceph 분산 스토리지</div>
+        <div class="cd-b">3노드 Ceph 클러스터로 데이터 가용성과 내결함성 확보. 스토리지 풀 통합 관리.</div>
+      </div>
+      <div class="col-dark">
+        <span class="tossface cd-icon">☸️</span>
+        <div class="cd-t">Talos Kubernetes</div>
+        <div class="cd-b">불변 OS 기반 Kubernetes 클러스터. Argo CD GitOps로 완전 자동화된 배포 운영.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 7: ACHIEVEMENTS -->
+<div class="slide s-achv">
+  <img style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:0.22;" src="../assets/bg-light-1.png">
+  <div style="position:relative;z-index:1;">
+    <span class="logo">INJUN.DEV</span>
+    <div class="s-h1" style="margin-bottom:0;">성취 &amp; 자격증</div>
+    <div class="achv-rows">
+      <div class="achv-row">
+        <div class="a-date">2025.03</div>
+        <span class="tossface a-icon">🐧</span>
+        <div class="a-name">리눅스마스터 2급</div>
+        <div class="a-org">한국정보통신진흥협회</div>
+      </div>
+      <div class="achv-row">
+        <div class="a-date">2024.07</div>
+        <span class="tossface a-icon">🥈</span>
+        <div class="a-name">해커톤 대회 우수상 — 모의 투자 서비스 팀장</div>
+        <div class="a-org">교내 해커톤</div>
+      </div>
+      <div class="achv-row">
+        <div class="a-date">2024.07</div>
+        <span class="tossface a-icon">🏆</span>
+        <div class="a-name">교과우수상 (컴퓨터 구조)</div>
+        <div class="a-org">교내 수상</div>
+      </div>
+      <div class="achv-row">
+        <div class="a-date">2024.04</div>
+        <span class="tossface a-icon">📋</span>
+        <div class="a-name">정보처리기능사</div>
+        <div class="a-org">한국산업인력공단</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 8: END -->
+<div class="slide s-end">
+  <img style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:0.42;" src="../assets/bg-dark-4-blur.png">
+  <div style="position:relative;z-index:1;">
+    <div class="e-eyebrow">Let's build something together</div>
+    <div class="e-headline">함께 만들어갈<br><span>더 나은 인프라</span></div>
+    <div class="e-contact"><strong>me@injun.dev</strong> · injun.dev</div>
+  </div>
+</div>
+
+</body>
+</html>
