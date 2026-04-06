@@ -1,8 +1,10 @@
 # make-ppt
 
-HTML slide authoring + PDF export pipeline, driven by Claude Code.
+HTML slide authoring + PDF export pipeline, driven by AI agents.
 
 Write a slide in `slides/`, run one command, get a PDF.
+
+Works with any AI agent that can read `CLAUDE.md` — Claude Code, Cursor, Windsurf, GitHub Copilot, and others.
 
 ---
 
@@ -46,7 +48,7 @@ make-ppt/
 ├── output/          # generated PDFs (git-ignored)
 ├── convert.py       # Playwright-based converter (don't touch)
 ├── run.sh           # entry point
-├── CLAUDE.md        # authoring rules for Claude Code
+├── CLAUDE.md        # authoring rules for AI agents
 └── DESIGN.md        # design system reference
 ```
 
