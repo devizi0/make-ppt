@@ -174,7 +174,6 @@ body { font-family: 'Wanted Sans Variable', sans-serif; }
 
 | 파일 | 색상 | 적합한 슬라이드 |
 |------|------|----------------|
-| `bg-dark-0.png` | 파랑/보라 구체 글로우 **(투명 PNG — 슬라이드 background:#0a0a0a 필수)** | 타이틀, 마무리 |
 | `bg-dark-1-blur.png` | 검정+핑크/틸 물결 | 타이틀, 마무리 |
 | `bg-dark-2-blur.png` | 검정+레드/오렌지 글로우 | 강조 섹션 |
 | `bg-dark-3.png` | 검정+레드/틸 유기적 곡선 | 타이틀 |
