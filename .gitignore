@@ -5,3 +5,7 @@ __pycache__/
 .DS_Store
 .env
 .omc/
+
+# 클라이언트별 슬라이드/스크린샷 — 별도 저장소에서 관리
+slides/daalgo*.html
+assets/[0-9]*.png
